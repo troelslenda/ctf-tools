@@ -1,0 +1,12 @@
+services:
+  kali-ctf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kali-ctf
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./workspace:/root/ctf
+    network_mode: host
+    restart: unless-stopped
