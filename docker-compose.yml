@@ -7,6 +7,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - ./workspace:/root/ctf
+      - ./workspace:/root/ctf:rw,z
+      - ./.bash_history:/root/.bash_history:rw,z
+
     network_mode: host
     restart: unless-stopped
