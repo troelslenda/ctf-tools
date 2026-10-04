@@ -1,0 +1,9 @@
+# The image only needs the Dockerfile. Keep local CTF materials and Git data
+# out of the build context.
+.git/
+.gitignore
+.bash_history
+workspace/
+README.md
+docker-compose.yml
+start.sh

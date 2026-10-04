@@ -85,6 +85,28 @@ podman-compose build
 
 The service uses `network_mode: host`. From inside the container, `localhost` is your Fedora host and the container shares the host network stack. That is convenient for local challenge services, but only connect to CTF targets you are authorized to access.
 
+## Publish to Docker Hub
+
+A free, verified Docker Hub Personal account can publish unlimited public repositories. Create a **public** repository named `kali-ctf` in Docker Hub first, then replace `<docker-id>` below with your Docker Hub username.
+
+```bash
+podman login docker.io
+podman tag localhost/ctf_kali-ctf:latest docker.io/<docker-id>/kali-ctf:2026.10
+podman tag localhost/ctf_kali-ctf:latest docker.io/<docker-id>/kali-ctf:latest
+podman push docker.io/<docker-id>/kali-ctf:2026.10
+podman push docker.io/<docker-id>/kali-ctf:latest
+```
+
+Use a new versioned tag for every intentional release and move `latest` alongside it. The `.dockerignore` file excludes `workspace/`, `.bash_history`, and Git metadata from the build context, so neither local challenge files nor command history are included in the published image.
+
+Colleagues can pull the release with:
+
+```bash
+podman pull docker.io/<docker-id>/kali-ctf:2026.10
+podman run --rm -it --network host -v "$(pwd)/workspace:/root/ctf:Z" \
+  docker.io/<docker-id>/kali-ctf:2026.10 /bin/bash
+```
+
 ## Troubleshooting
 
 If Podman has stale state or the image fails to start, recreate the service:
